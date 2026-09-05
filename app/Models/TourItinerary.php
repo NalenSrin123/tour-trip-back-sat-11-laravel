@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -6,35 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Tour;
 
-class Review extends Model
+class TourItinerary extends Model
 {
     use HasFactory;
 
-    protected $table = 'reviews_tb';
-    protected $primaryKey = 'review_id';
+    protected $table = 'tour_itineraries_tb';
+    protected $primaryKey = 'tour_itineraries_id';
 
     const UPDATED_AT = null;
 
     protected $fillable = [
         'tour_id',
-        'user_id',
-        'rating',
-        'comment',
-
+        'day_number',
+        'title',
+        'description',
     ];
 
     protected $casts = [
         'tour_id' => 'integer',
-        'user_id' => 'integer',
-        'rating' => 'integer',
+        'day_number' => 'integer',
     ];
+
     public function tour(): BelongsTo
     {
         return $this->belongsTo(Tour::class, 'tour_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 }

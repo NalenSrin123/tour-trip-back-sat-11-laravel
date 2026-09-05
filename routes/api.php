@@ -9,3 +9,7 @@ Route::get('/destinations', [DestinationController::class, 'index']);
 
 // Route សម្រាប់បញ្ជូនទិន្នន័យថ្មីចូល (Create)
 Route::post('/destinations', [DestinationController::class, 'store']);
+
+
+Route::put('/destinations/{id}', [\App\Http\Controllers\DestinationController::class, 'update']);
+Route::delete('/destinations/{id}', [\App\Http\Controllers\DestinationController::class, 'destroy']);
