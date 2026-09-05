@@ -10,21 +10,18 @@ class TourGallery extends Model
     use HasFactory;
 
     protected $table = 'tour_galleries';
-
     protected $primaryKey = 'id';
 
-    protected $keyType = 'int';
-
-    const UPDATED_AT = null;
+    public $timestamps = false;
+    const CREATED_AT = 'created_at';
 
     protected $fillable = [
         'tour_id',
-        'image_url',
+        'image_url'
     ];
 
-   
-    // public function tour()
-    // {
-    //     return $this->belongsTo(Tour::class, 'tour_id');
-    // }
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'tour_id', 'tour_id');
+    }
 }
