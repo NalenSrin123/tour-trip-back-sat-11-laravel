@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DestinationController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\API\RoleController;
-
+use App\Http\Controllers\Api\CategoryController;
 // Route សម្រាប់ទាញយកទិន្នន័យទាំងអស់មកបង្ហាញ (List)
 Route::get('/destinations', [DestinationController::class, 'index']);
 
@@ -21,3 +21,4 @@ Route::post('/create-tours', [TourController::class, 'store']);
 Route::put('/tours/{id}', [TourController::class, 'update']);
 Route::delete('/tours/{id}', [TourController::class, 'destroy']);
 Route::apiResource('roles', RoleController::class);
+Route::apiResource('categories', CategoryController::class);
