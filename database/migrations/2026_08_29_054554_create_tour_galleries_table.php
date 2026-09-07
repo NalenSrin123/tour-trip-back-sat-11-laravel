@@ -10,9 +10,14 @@ return new class extends Migration
     {
         Schema::create('tour_galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tour_id')->constrained('tours')->onDelete('cascade');
+
+            $table->foreignId('tour_id')
+                ->constrained('tours', 'tour_id')
+                ->cascadeOnDelete();
+
             $table->string('image_url');
-            $table->timestamp('created_at')->useCurrent(); // Only created_at (since UPDATED_AT is null)
+
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

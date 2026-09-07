@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
         Schema::create('tour_itineraries_tb', function (Blueprint $table) {
@@ -28,7 +27,6 @@ return new class extends Migration
                 ->cascadeOnDelete();
         });
     }
-
 
     public function down(): void
     {
