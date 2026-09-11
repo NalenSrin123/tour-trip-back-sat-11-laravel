@@ -11,7 +11,7 @@ class TourItinerary extends Model
 {
     use HasFactory;
 
-    protected $table = 'tour_itineraries_tb';
+    protected $table = 'tour_itineraries';
     protected $primaryKey = 'tour_itineraries_id';
 
     const UPDATED_AT = null;
