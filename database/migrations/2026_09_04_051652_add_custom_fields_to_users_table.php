@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            // role មានរួចហើយ ដូច្នេះយើងបន្ថែមតែ otp និង otp_expires_at
+            if (!Schema::hasColumn('users', 'otp')) {
+                $table->string('otp')->nullable()->after('role');
+            }
+            if (!Schema::hasColumn('users', 'otp_expires_at')) {
+                $table->timestamp('otp_expires_at')->nullable()->after('otp');
+            }
         });
     }
 
@@ -22,29 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn(['otp', 'otp_expires_at']);
         });
     }
-
-
-
-
-
-
-
-    public function up(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('role')->default('customer')->after('email');
-        $table->string('otp')->nullable()->after('role');
-        $table->timestamp('otp_expires_at')->nullable()->after('otp');
-    });
-}
-
-public function down(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn(['role', 'otp', 'otp_expires_at']);
-    });
-}
 };

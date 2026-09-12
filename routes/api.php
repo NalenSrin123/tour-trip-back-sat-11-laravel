@@ -7,10 +7,12 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\AuthController;
-// Route សម្រាប់ទាញយកទិន្នន័យទាំងអស់មកបង្ហាញ (List)
+use App\Http\Controllers\TourGalleryController; 
+
+
 Route::get('/destinations', [DestinationController::class, 'index']);
 
-// Route សម្រាប់បញ្ជូនទិន្នន័យថ្មីចូល (Create)
+
 Route::post('/destinations', [DestinationController::class, 'store']);
 
 
@@ -28,8 +30,11 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
-// Protected endpoints
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });
+
+
+Route::apiResource('tour-galleries', TourGalleryController::class);
