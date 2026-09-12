@@ -23,6 +23,10 @@ Route::delete('/destinations/{id}', [\App\Http\Controllers\DestinationController
 
 Route::get('/list-tours', [TourController::class, 'index']);
 Route::post('/create-tours', [TourController::class, 'store']);
+
+Route::get('/tour-itineraries', [TourItineraryController::class, 'index']);
+Route::post('/tour-itineraries', [TourItineraryController::class, 'store']);
+
 Route::put('/tours/{id}', [TourController::class, 'update']);
 Route::delete('/tours/{id}', [TourController::class, 'destroy']);
 
@@ -40,7 +44,6 @@ Route::apiResource('categories', CategoryController::class);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
-
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

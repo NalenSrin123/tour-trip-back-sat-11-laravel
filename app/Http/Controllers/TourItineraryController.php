@@ -13,13 +13,33 @@ class TourItineraryController extends Controller
     /**
      * List page with edit/delete actions.
      */
-    public function index()
+        public function index()
     {
-        $itineraries = TourItinerary::with('tour')
-            ->orderByDesc('tour_itineraries_id')
-            ->get();
+        $itineraries = TourItinerary::all();
 
-        return view('tour_itineraries.index', compact('itineraries'));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tour itineraries retrieved successfully',
+            'data' => $itineraries,
+        ], 200);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'tour_id' => 'required|integer|exists:tours,tour_id',
+            'day_number' => 'required|integer|min:1',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $itinerary = TourItinerary::create($validated);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tour itinerary created successfully',
+            'data' => $itinerary,
+        ], 201);
     }
 
     /**

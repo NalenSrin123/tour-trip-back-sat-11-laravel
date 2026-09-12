@@ -13,6 +13,8 @@ class Destination extends Model
     protected $primaryKey = 'destination_id';
     
     public $timestamps = false;
+    // បិទ updated_at ព្រោះ table គ្មាន column នេះទេ
+    const UPDATED_AT = null;
 
     protected $fillable = [
         'name',
