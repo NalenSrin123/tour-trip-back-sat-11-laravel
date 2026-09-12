@@ -9,7 +9,8 @@ use App\Http\Controllers\TourItineraryController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TourGalleryController; 
+use App\Http\Controllers\TourGalleryController;
+use App\Http\Controllers\Api\TourScheduleController;
 
 
 Route::get('/destinations', [DestinationController::class, 'index']);
@@ -52,3 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::apiResource('tour-galleries', TourGalleryController::class);
+
+Route::get('/tour-schedules',[TourScheduleController::class, 'index']);
+Route::post('/tour-schedules',[TourScheduleController::class, 'store']);
