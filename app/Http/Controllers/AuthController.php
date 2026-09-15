@@ -13,33 +13,34 @@ class AuthController extends Controller
     /**
      * Register a new user (customer or admin).
      */
-    public function register(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:customer,admin',
-        ]);
+   public function register(Request $request): JsonResponse
+{
+    // 1. ដក 'role' ចេញពី Validation 
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
-        ]);
+    // 2. កំណត់ role => 'customer' ដោយស្វ័យប្រវត្តិ (Default)
+    $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+        'role' => $request->input('role', 'customer'), // បើគ្មានផ្ញើមកទេ យក 'customer' ជាស្វ័យប្រវត្តិ
+    ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User registered successfully',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role,
-            ],
-        ], 201);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'User registered successfully',
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+        ],
+    ], 201);
+}
 
     /**
      * Log a user in.
