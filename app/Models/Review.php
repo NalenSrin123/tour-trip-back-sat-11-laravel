@@ -1,40 +1,18 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Tour;
 
 class Review extends Model
 {
-    use HasFactory;
+    // កំណត់ឈ្មោះ Table ឱ្យត្រូវ
+    protected $table = 'reviews';
 
-    protected $table = 'reviews_tb';
-    protected $primaryKey = 'review_id';
+    // **ចំណុចសំខាន់៖** ប្រាប់ Laravel ឱ្យដឹងថា Primary Key មិនមែន id ទេ គឺ reviews_id
+    protected $primaryKey = 'reviews_id';
 
-    const UPDATED_AT = null;
+    public $timestamps = false; // ឬ true ទៅតាម table របស់អ្នក
 
-    protected $fillable = [
-        'tour_id',
-        'user_id',
-        'rating',
-        'comment',
-
-    ];
-
-    protected $casts = [
-        'tour_id' => 'integer',
-        'user_id' => 'integer',
-        'rating' => 'integer',
-    ];
-    public function tour(): BelongsTo
-    {
-        return $this->belongsTo(Tour::class, 'tour_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    protected $fillable = ['tour_id', 'user_id', 'rating', 'comment', 'status'];
 }

@@ -56,3 +56,9 @@ Route::apiResource('tour-galleries', TourGalleryController::class);
 
 Route::get('/tour-schedules',[TourScheduleController::class, 'index']);
 Route::post('/tour-schedules',[TourScheduleController::class, 'store']);
+
+use App\Http\Controllers\Api\ReviewController;
+
+Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
