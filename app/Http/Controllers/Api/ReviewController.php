@@ -55,4 +55,21 @@ class ReviewController extends Controller
             'message' => 'Review deleted successfully.'
         ], 200);
     }
+     public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'tour_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'rating'  => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string',
+            'status'  => 'nullable|string'
+        ]);
+
+        $review = Review::create($validated);
+
+        return response()->json([
+            'message' => 'Review created successfully!',
+            'data'    => $review
+        ], 201);
+    }
 }
