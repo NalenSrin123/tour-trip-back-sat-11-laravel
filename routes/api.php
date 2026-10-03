@@ -14,7 +14,7 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
-// 2. API សម្រាប់ Category (CRUD)
+// 1. Route សម្រាប់ Category CRUD ទាំងអស់ (GET, POST, PUT, DELETE)
 Route::apiResource('categories', CategoryController::class);
 
 // 3. User Authentication Route
