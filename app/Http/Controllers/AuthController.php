@@ -18,22 +18,21 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-  
+            'password' => 'required|string|min:8',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
+            'role' => 'customer',
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'User registered successfully',
             'user' => [
-                'id' => $user->id,
+                'id' => $user->getKey(),
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role,
@@ -73,7 +72,7 @@ class AuthController extends Controller
                 'requires_otp' => false,
                 'token' => $token,
                 'user' => [
-                    'id' => $user->id,
+                    'id' => $user->getKey(),
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' => $user->role,
@@ -154,7 +153,7 @@ class AuthController extends Controller
             'message' => 'OTP verified successfully. Login successful',
             'token' => $token,
             'user' => [
-                'id' => $user->id,
+                'id' => $user->getKey(),
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role,
@@ -183,7 +182,7 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'user' => [
-                'id' => $request->user()->id,
+                'id' => $request->user()->getKey(),
                 'name' => $request->user()->name,
                 'email' => $request->user()->email,
                 'role' => $request->user()->role,
