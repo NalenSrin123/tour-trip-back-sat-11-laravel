@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('customer');
             $table->string('otp')->nullable();
             $table->timestamp('otp_expires_at')->nullable();
         });
@@ -24,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['role', 'otp', 'otp_expires_at']);
+            $table->dropColumn(['otp', 'otp_expires_at']);
         });
     }
 };

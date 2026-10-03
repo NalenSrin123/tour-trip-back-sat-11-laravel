@@ -9,10 +9,13 @@ use App\Http\Controllers\TourItineraryController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\AuthController;
-// Route សម្រាប់ទាញយកទិន្នន័យទាំងអស់មកបង្ហាញ (List)
+use App\Http\Controllers\TourGalleryController;
+use App\Http\Controllers\Api\TourScheduleController;
+use App\Http\Controllers\Api\ReviewController;
+
 Route::get('/destinations', [DestinationController::class, 'index']);
 
-// Route សម្រាប់បញ្ជូនទិន្នន័យថ្មីចូល (Create)
+
 Route::post('/destinations', [DestinationController::class, 'store']);
 
 
@@ -21,6 +24,10 @@ Route::delete('/destinations/{id}', [\App\Http\Controllers\DestinationController
 
 Route::get('/list-tours', [TourController::class, 'index']);
 Route::post('/create-tours', [TourController::class, 'store']);
+
+Route::get('/tour-itineraries', [TourItineraryController::class, 'index']);
+Route::post('/tour-itineraries', [TourItineraryController::class, 'store']);
+
 Route::put('/tours/{id}', [TourController::class, 'update']);
 Route::delete('/tours/{id}', [TourController::class, 'destroy']);
 
@@ -39,8 +46,19 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
-// Protected endpoints
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });
+
+
+Route::apiResource('tour-galleries', TourGalleryController::class);
+
+Route::get('/tour-schedules',[TourScheduleController::class, 'index']);
+Route::post('/tour-schedules',[TourScheduleController::class, 'store']);
+
+Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+Route::post('/reviews', [ReviewController::class, 'store']);
+
+
