@@ -37,7 +37,10 @@ class CategoryController extends Controller
                 'description'   => 'nullable|string',
             ]);
 
-            $category = Category::create($validated);
+            $category = Category::create([
+                'name' => $validated['category_name'],
+                'description' => $validated['description'] ?? null,
+            ]);
 
             return response()->json([
                 'status'  => true,
