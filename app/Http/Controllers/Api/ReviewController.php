@@ -57,16 +57,18 @@ class ReviewController extends Controller
     }
      public function store(Request $request)
     {
-        $validated = $request->validate([
-            'tour_id' => 'required|integer',
-            'user_id' => 'required|integer',
-            'rating'  => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
-            'status'  => 'nullable|string'
-        ]);
+     
+            // កែសម្រួលត្រង់នេះ៖ មិនបាច់ដាក់ exists:... ទេ ដើម្បីងាយស្រួលតេស្ត
+            $validated = $request->validate([
+                'tour_id' => 'required|integer',
+                'user_id' => 'required|integer',
+                'rating'  => 'required|integer|min:1|max:5',
+                'comment' => 'nullable|string',
+                'status'  => 'nullable|string',
+            ]);
 
-        $review = Review::create($validated);
-
+            $review = Review::create($validated);
+        
         return response()->json([
             'message' => 'Review created successfully!',
             'data'    => $review
