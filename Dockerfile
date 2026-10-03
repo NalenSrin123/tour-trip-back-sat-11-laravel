@@ -40,14 +40,15 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Copy Vite build
+# Copy Vite production build
 COPY --from=frontend /app/public/build ./public/build
 
-# Install production dependencies
+# Install production PHP dependencies
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
-    --no-interaction
+    --no-interaction \
+    --no-progress
 
 # Laravel permissions
 RUN chown -R www-data:www-data storage bootstrap/cache \
@@ -55,4 +56,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 
 EXPOSE 10000
 
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+# Migrate database and start Laravel
+CMD php artisan migrate --force \
+    && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
