@@ -1,48 +1,63 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Exception;
 
 class CategoryController extends Controller
 {
-    // 1. View All (Read)
-    public function index() {
-        return response()->json(Category::all(), 200);
+    // 1. GET (View All Categories)
+    public function index()
+    {
+        try {
+            $categories = Category::all();
+            return response()->json([
+                'status'  => true,
+                'data'    => $categories
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Failed to fetch categories!',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
     }
 
-    // 2. Create (Insert)
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-        $category = Category::create($request->all());
-        return response()->json(['message' => 'បង្កើតបានជោគជ័យ!', 'data' => $category], 201);
-    }
+    // 2. CREATE (Store New Category)
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'category_name' => 'required|string|max:255',
+                'description'   => 'nullable|string',
+            ]);
 
-    // 3. View Single Category (Read តែមួយ)
-    public function show($id) {
-        $category = Category::find($id);
-        if(!$category) return response()->json(['message' => 'រកមិនឃើញទេ'], 404);
-        return response()->json($category, 200);
-    }
+            $category = Category::create($validated);
 
-    // 4. Update (កែប្រែ)
-    public function update(Request $request, $id) {
-        $category = Category::find($id);
-        if(!$category) return response()->json(['message' => 'រកមិនឃើញទេ'], 404);
-        
-        $category->update($request->all());
-        return response()->json(['message' => 'កែប្រែបានជោគជ័យ!', 'data' => $category], 200);
-    }
+            return response()->json([
+                'status'  => true,
+                'message' => 'បង្កើតបានជោគជ័យ!',
+                'data'    => $category
+            ], 201);
 
-    // 5. Delete (លុប)
-    public function destroy($id) {
-        $category = Category::find($id);
-        if(!$category) return response()->json(['message' => 'រកមិនឃើញទេ'], 404);
-        
-        $category->delete();
-        return response()->json(['message' => 'លុបបានជោគជ័យ!'], 200);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Validation Error',
+                'errors'  => $e->errors()
+            ], 422);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Failed to create category!',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
     }
 }
